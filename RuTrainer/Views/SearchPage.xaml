@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="RuTrainer.Views.SearchPage"
+             Shell.NavBarIsVisible="True">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <SearchBar Grid.Row="0" VerticalOptions="StartAndExpand" Placeholder="Search stations..."/>
+            <ScrollView Grid.Row="1">
+                <ScrollView.Content>
+                    <StackLayout>
+                        <ListView x:Name="MyListView"
+                                    CachingStrategy="RecycleElement"
+                                    BindingContext="{Binding NearbyStations}">
+                            <ListView.ItemTemplate>
+                              <DataTemplate>
+                                <ViewCell>
+                                  <StackLayout>
+                                    <Label Text="{Binding popular_title}" />
+                                  </StackLayout>
+                                </ViewCell>
+                              </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </ScrollView.Content>
+            </ScrollView>
+
+            <Grid Grid.Row="2" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button     Text="Cancel" 
+                            x:Name="CancelBtn"
+                            StyleClass="MenuItemLayoutStyle" 
+                            Clicked="CancelBtn_Clicked"
+                            FontAttributes="Bold">
+                </Button>
+                <Button     Text="Search"
+                            Grid.Column="1"
+                            x:Name="SearchBtn"
+                            StyleClass="MenuItemLayoutStyle" 
+                            Clicked="SearchBtn_Clicked"
+                            FontAttributes="Bold">
+                </Button>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
