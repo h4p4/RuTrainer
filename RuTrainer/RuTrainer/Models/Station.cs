@@ -1,5 +1,4 @@
-﻿using static Chuck.ApiProvider;
-
+﻿
 namespace RuTrainer.Models
 {
     public class Station
@@ -20,5 +19,7 @@ namespace RuTrainer.Models
         public string? station_type_name { get; set; }
         public float? distance { get; set; }
         public int? majority { get; set; }
+
+        public Settlement? Settlement { get; set; }
     }
 }

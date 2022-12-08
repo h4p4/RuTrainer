@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="RuTrainer.Views.SearchPage"
+             xmlns:vm="clr-namespace:RuTrainer.ViewModels"
              Shell.NavBarIsVisible="True">
+    <ContentPage.BindingContext>
+        <vm:SearchViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -16,15 +20,22 @@
                     <StackLayout>
                         <ListView x:Name="MyListView"
                                     CachingStrategy="RecycleElement"
-                                    BindingContext="{Binding NearbyStations}">
+                                    ItemsSource="{Binding AllStations}">
                             <ListView.ItemTemplate>
-                              <DataTemplate>
-                                <ViewCell>
-                                  <StackLayout>
-                                    <Label Text="{Binding popular_title}" />
-                                  </StackLayout>
-                                </ViewCell>
-                              </DataTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Label TextColor="Black" >
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0} {1}">
+                                                        <Binding Path="Settlement.title" />
+                                                        <Binding Path="title" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>

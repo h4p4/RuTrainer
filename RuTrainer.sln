@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuTrainer.Android", "RuTrai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuTrainer.iOS", "RuTrainer\RuTrainer.iOS\RuTrainer.iOS.csproj", "{27B3D0BA-5B3A-4262-8D87-6F19E182C816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuTrainer", "RuTrainer\RuTrainer\RuTrainer.csproj", "{E262ACB7-7CE8-49EC-B56B-17D9AF17C7AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuTrainer", "RuTrainer\RuTrainer\RuTrainer.csproj", "{E262ACB7-7CE8-49EC-B56B-17D9AF17C7AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +20,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Debug|iPhone.Build.0 = Debug|Any CPU
@@ -38,7 +37,6 @@ Global
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{659E89BD-0C6C-4DD5-941C-AB53C0CE7535}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{27B3D0BA-5B3A-4262-8D87-6F19E182C816}.Debug|Any CPU.ActiveCfg = Debug|iPhone
-		{27B3D0BA-5B3A-4262-8D87-6F19E182C816}.Debug|Any CPU.Build.0 = Debug|iPhone
 		{27B3D0BA-5B3A-4262-8D87-6F19E182C816}.Debug|Any CPU.Deploy.0 = Debug|iPhone
 		{27B3D0BA-5B3A-4262-8D87-6F19E182C816}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{27B3D0BA-5B3A-4262-8D87-6F19E182C816}.Debug|iPhone.Build.0 = Debug|iPhone
