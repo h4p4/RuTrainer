@@ -1,6 +1,7 @@
 ﻿using RuTrainer.Models;
 using RuTrainer.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,73 +15,55 @@ namespace RuTrainer.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
-        public ICommand SearchCommand { get; }
-        public ObservableCollection<Station> AllStations { get; set; }
-        private async void LoadNearbyStationsAsync() 
+        private string _searchText = String.Empty;
+        private ObservableCollection<Station> _stationsList;
+        private Command searchCommand;
+        public string SearchText
         {
-            var res = await ApiProvider.GetNearbyStationsAsync();
-            App.Current.Dispatcher.BeginInvokeOnMainThread((Action)delegate ()
+            get => _searchText; 
+            set
             {
-                //foreach (var r in res)
-                    //NearbyStationsTitles.Add(r.title);
-            });
+                SetProperty(ref _searchText, value);
+                Search(_searchText);
+            }
         }
-        //private async void LoadAllStationsAsync()
-        //{
-        //    var res = await ApiProvider.GetNearbyStationsAsync();
-        //    App.Current.Dispatcher.BeginInvokeOnMainThread((Action)delegate ()
-        //    {
-        //        //foreach (var r in res)
-        //        //NearbyStationsTitles.Add(r.title);
-        //    });
-        //}
-        private async void LoadAllStationsAsync()
+        public ObservableCollection<Station> StationsList
         {
+            get => _stationsList;
+            set => SetProperty(ref _stationsList, value);
+        }        
+        public ICommand SearchCommand => searchCommand ??= new Command(Search);
 
-            AllStations = new ObservableCollection<Station>(AllStations.Take(150));
-        }
-        //private void LoadAllStationsAsync()
-        //{
-        //    Task.Run(async () => 
-        //    {
-        //        //var res = await ApiProvider.GetAllStationsAsync();
-        //        //Device.BeginInvokeOnMainThread(() => 
-        //        //{
-        //        //    foreach (var r in res.regions)
-        //        //        foreach (var s in r.settlements)
-        //        //            foreach (var st in s.stations.Take(100))
-        //        //            {
-        //        //                AllStations.Add(st);
-        //        //            }
-        //        //});
-        //        var res = await ApiProvider.GetAllStationsAsync();
-        //        App.Current.Dispatcher.BeginInvokeOnMainThread((Action)delegate ()
-        //        {
-        //            foreach (var r in res.regions)
-        //                foreach (var s in r.settlements)
-        //                    foreach (var st in s.stations.Take(100))
-        //                    {
-        //                        AllStations.Add(st);
-        //                    }
-        //        });
-        //    });
-        //}
         public SearchViewModel()
         {
-            //LoadNearbyStationsAsync();
-            AllStations = new ObservableCollection<Station>();
-            LoadAllStationsAsync();
-
-            //var a = Task.Run(async () => await LoadNearbyStationsAsync());
-            //NearbyStationsTitles = new ObservableCollection<string>(a.Result);
-            //LoadNearbyStationsAsync();
-
-            //NearbyStations = new ObservableCollection<Station>();
-            //Station station = new Station();
-            //station.popular_title = "test";
-            //NearbyStations.Add(station);
-            //NearbyStations.Add(station);
-            //NearbyStations.Add(station);
+            StationsList = new ObservableCollection<Station>();
+            //LoadAllStationsAsync();
         }
+        private void Search(object p)
+        {
+            IsBusy = true;
+            Task.Run(() =>
+            {
+                StationsList.Clear();
+                if (String.IsNullOrWhiteSpace(SearchText)) return;
+                HandleSearch();
+            }).ContinueWith((t) =>
+            {
+                IsBusy = false;
+            });
+
+        }
+        private void HandleSearch()
+        {
+            var source = ApiProvider.AllStations
+                .Where(x => x.Settlement.title.ToLower().StartsWith(SearchText.ToLower()) ||
+                            x.Settlement.Region.title.ToLower().StartsWith(SearchText.ToLower()) ||
+                            x.title.ToLower().StartsWith(SearchText.ToLower()));
+            foreach (var item in source)
+                StationsList.Add(item);
+        }
+
+
+
     }
 }

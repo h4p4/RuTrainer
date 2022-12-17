@@ -19,15 +19,10 @@ namespace RuTrainer.Views
             this.BindingContext = new SearchViewModel();
         }
 
-        private async void SearchBtn_Clicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CancelBtn_Clicked(object sender, EventArgs e)
-        {
-
-        }
+        //protected override async void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //}
 
         private void MyListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {

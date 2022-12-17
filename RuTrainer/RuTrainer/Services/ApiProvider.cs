@@ -12,8 +12,8 @@ namespace RuTrainer.Services
 {
     public static class ApiProvider
     {
-        static HttpClient httpClient = new HttpClient();
-        static List<Station> Stations { get; set; }
+        private static HttpClient httpClient = new HttpClient();
+        public static List<Station> AllStations = new List<Station>();
         public static async Task<Root> GetTripsByStationAsync(string station)
         {
             string request = $"https://api.rasp.yandex.net/v3.0/schedule/?" +
@@ -30,7 +30,6 @@ namespace RuTrainer.Services
 
             return root;
         }
-
         public static async Task<Station[]> GetNearbyStationsAsync()
         {
             HttpResponseMessage response =
@@ -48,8 +47,7 @@ namespace RuTrainer.Services
 
             return root.stations;
         }
-
-        public static async Task InitStationsAsync()
+        public static async Task LoadStationsAsync()
         {
             HttpResponseMessage response =
                 (await httpClient.GetAsync($"https://api.rasp.yandex.net/v3.0/stations_list/?" +
@@ -57,18 +55,27 @@ namespace RuTrainer.Services
                 $"format=json&" +
                 $"transport_types=train&" +
                 $"lang=ru_RU")).EnsureSuccessStatusCode();
-            var rg = JObject.Parse(await response.Content.ReadAsStringAsync())
+            var country = JObject.Parse(await response.Content.ReadAsStringAsync())
                           .ToObject<Rootobject>().countries
-                          .Where(x => x.title == "Россия").First().regions;
-            Stations = new List<Station>();
-            foreach (var r in rg)
-                foreach (var s in r.settlements)
+                          .Where(x => x.title == "Россия").First();
+            foreach (var r in country.regions)
+            {
+                r.Country = country; 
+                foreach (var s in r.settlements/*.Where(x => !String.IsNullOrWhiteSpace(x.title))*/)
+                {
+                    s.Region = r;
                     foreach (var st in s.stations.Where(x => x.transport_type == "train" || x.transport_type == "поезд"))
                     {
                         st.Settlement = s;
-                        Stations.Add(st);
+                        AllStations.Add(st);
                     }
+                }
+            }
+
         }
+
+
+
 
     }
 }

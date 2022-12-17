@@ -5,5 +5,8 @@
         public string title { get; set; }
         public Codes2 codes { get; set; }
         public Station[] stations { get; set; }
+
+
+        public Region? Region { get; set; }
     }
 }

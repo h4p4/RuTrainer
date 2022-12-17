@@ -14,22 +14,32 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <SearchBar Grid.Row="0" VerticalOptions="StartAndExpand" Placeholder="Search stations..."/>
+            <SearchBar Grid.Row="0" 
+                       x:Name="searchBar"
+                       VerticalOptions="StartAndExpand" 
+                       Placeholder="Search stations..."
+                       SearchCommand="{Binding SearchCommand}"
+                       Text="{Binding SearchText, Mode=TwoWay}"
+                       SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                       />
             <ScrollView Grid.Row="1">
                 <ScrollView.Content>
                     <StackLayout>
                         <ListView x:Name="MyListView"
                                     CachingStrategy="RecycleElement"
-                                    ItemsSource="{Binding AllStations}">
+                                    ItemsSource="{Binding StationsList}"
+                                    RefreshCommand="{Binding SearchCommand}"
+                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout>
                                             <Label TextColor="Black" >
                                                 <Label.Text>
-                                                    <MultiBinding StringFormat="{}{0} {1}">
+                                                    <MultiBinding StringFormat="{}{0}, {1}, {2}">
+                                                        <Binding Path="Settlement.Region.title" />
                                                         <Binding Path="Settlement.title" />
-                                                        <Binding Path="title" />
+                                                        <Binding Path="title"/>
                                                     </MultiBinding>
                                                 </Label.Text>
                                             </Label>
@@ -41,7 +51,7 @@
                     </StackLayout>
                 </ScrollView.Content>
             </ScrollView>
-
+            <!--
             <Grid Grid.Row="2" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -50,17 +60,18 @@
                 <Button     Text="Cancel" 
                             x:Name="CancelBtn"
                             StyleClass="MenuItemLayoutStyle" 
-                            Clicked="CancelBtn_Clicked"
                             FontAttributes="Bold">
                 </Button>
                 <Button     Text="Search"
                             Grid.Column="1"
                             x:Name="SearchBtn"
                             StyleClass="MenuItemLayoutStyle" 
-                            Clicked="SearchBtn_Clicked"
-                            FontAttributes="Bold">
+                            FontAttributes="Bold"
+                            Command="{Binding SearchCommand}"
+                            CommandParameter="{Binding Text, Source={x:Reference searchBar}}">
                 </Button>
-            </Grid>
+            </Grid> 
+            -->
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -1,7 +1,9 @@
-﻿using RuTrainer.ViewModels;
+﻿using RuTrainer.Services;
+using RuTrainer.ViewModels;
 using RuTrainer.Views;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
