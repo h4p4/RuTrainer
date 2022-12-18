@@ -10,31 +10,47 @@
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="45"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <SearchBar Grid.Row="0" 
-                       x:Name="searchBar"
+            <SearchBar Grid.Row="0"
+                       x:Name="searchFromBar"
                        VerticalOptions="StartAndExpand" 
-                       Placeholder="Search stations..."
+                       Placeholder="From"
                        SearchCommand="{Binding SearchCommand}"
-                       Text="{Binding SearchText, Mode=TwoWay}"
-                       SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                       Text="{Binding SearchFromText, Mode=TwoWay}"
+                       SearchCommandParameter="from"
                        />
-            <ScrollView Grid.Row="1">
+            <SearchBar Grid.Row="1"
+                       x:Name="searchToBar"
+                       VerticalOptions="StartAndExpand" 
+                       Placeholder="To"
+                       SearchCommand="{Binding SearchCommand}"
+                       Text="{Binding SearchToText, Mode=TwoWay}"
+                       SearchCommandParameter="to"
+                       />
+            <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="CenterAndExpand" Spacing="20">
+                <Button Text="Clear..." Margin="3" Command="{Binding ClearCommand}"/>
+                <Button Text="Search!" Margin="3" Command="{Binding SearchTripsCommand}"/>
+                <Button Text="Swap!" Margin="3" Command="{Binding SwapCommand}"/>
+            </StackLayout>
+            <ScrollView Grid.Row="3"  >
                 <ScrollView.Content>
                     <StackLayout>
-                        <ListView x:Name="MyListView"
+                        <ListView x:Name="FromListView"
                                     CachingStrategy="RecycleElement"
-                                    ItemsSource="{Binding StationsList}"
+                                    ItemsSource="{Binding StationList}"
                                     RefreshCommand="{Binding SearchCommand}"
-                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                                    SelectedItem="{Binding StationsListSelectedItem, Mode=TwoWay}"
+                                  >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout>
-                                            <Label TextColor="Black" >
+                                            <Label TextColor="Black" FontSize="Body" >
                                                 <Label.Text>
                                                     <MultiBinding StringFormat="{}{0}, {1}, {2}">
                                                         <Binding Path="Settlement.Region.title" />
@@ -51,27 +67,37 @@
                     </StackLayout>
                 </ScrollView.Content>
             </ScrollView>
-            <!--
-            <Grid Grid.Row="2" Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button     Text="Cancel" 
-                            x:Name="CancelBtn"
-                            StyleClass="MenuItemLayoutStyle" 
-                            FontAttributes="Bold">
-                </Button>
-                <Button     Text="Search"
-                            Grid.Column="1"
-                            x:Name="SearchBtn"
-                            StyleClass="MenuItemLayoutStyle" 
-                            FontAttributes="Bold"
-                            Command="{Binding SearchCommand}"
-                            CommandParameter="{Binding Text, Source={x:Reference searchBar}}">
-                </Button>
-            </Grid> 
-            -->
+            <!--                <ScrollView Grid.Row="3" HeightRequest="0">
+                    <ScrollView.Content>
+                        <StackLayout>
+                            <ListView x:Name="ToListView"
+                                    CachingStrategy="RecycleElement"
+                                    VerticalOptions="StartAndExpand"
+                                    ItemsSource="{Binding ToStationList}"
+                                    RefreshCommand="{Binding SearchToCommand}"
+                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                                    >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout>
+                                                <Label TextColor="Black" >
+                                                    <Label.Text>
+                                                        <MultiBinding StringFormat="{}{0}, {1}, {2}">
+                                                            <Binding Path="Settlement.Region.title" />
+                                                            <Binding Path="Settlement.title" />
+                                                            <Binding Path="title"/>
+                                                        </MultiBinding>
+                                                    </Label.Text>
+                                                </Label>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </ScrollView.Content>
+                </ScrollView>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>
