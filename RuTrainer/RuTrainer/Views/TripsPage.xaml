@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RuTrainer.Views.TripsPage"
+             xmlns:vm="clr-namespace:RuTrainer.ViewModels"
+             Shell.NavBarIsVisible="True">
+    <ContentPage.BindingContext>
+        <vm:TripsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal">
+                <Label FontSize="Large" Text="{Binding From.title}"/>
+                <Label FontSize="Large" Text="➤"/>
+                <Label FontSize="Large" Text="{Binding To.title}"/>
+            </StackLayout>
+            <ScrollView Grid.Row="1"  >
+                <ScrollView.Content>
+                    <StackLayout>
+                        <ListView x:Name="SegmentsListView"
+                                    CachingStrategy="RecycleElement"
+                                    ItemsSource="{Binding Segments}"
+                                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                                    SelectedItem="{Binding SelectedSegment, Mode=TwoWay}">
+                                <!--RefreshCommand="{Binding SearchCommand}"-->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Label TextColor="Black" FontSize="Body">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{} Длит:{0} | {1} | {2}">
+                                                        <Binding Path="Duration"/>
+                                                        <Binding Path="Thread.Title"/>
+                                                        <Binding Path="Thread.Number"/>
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </ScrollView.Content>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

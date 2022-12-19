@@ -189,6 +189,7 @@
                         if (InnerException != null) // the method threw an exeption
                         {
                             throw new AggregateException("ThreadHelper.Run method threw an exception.", InnerException);
+                            // вот здесь можно эксеп кидать если не удалось подключиться
                         }
                     }
                     else
